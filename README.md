@@ -12,4 +12,4 @@ The library is written on the foundation of NOD, or **Number Of Decimals**, for 
 
 ## Usage
 
-The users are encouraged to look at the test cases in the code for example usage.
+We encourage you to look at the test cases in the code for examples.
