@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
 )
 
 type currTmp struct {
@@ -57,7 +57,7 @@ var currMap = make(map[string]Currency)
 
 func init() {
 	confFile := "conf/currency.json"
-	b, err := ioutil.ReadFile(confFile)
+	b, err := os.ReadFile(confFile)
 	if err != nil {
 		log.Fatalf("Cannot load config: %v.", confFile)
 	}
@@ -83,8 +83,5 @@ func GetCurrency(code string) (Currency, error) {
 // ValidCurrency checks if the currency code is correct
 func ValidCurrency(code string) bool {
 	_, err := GetCurrency(code)
-	if err != nil {
-		return false
-	}
-	return true
+	return err == nil
 }
