@@ -1,10 +1,16 @@
 package moneylib
 
-import "testing"
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestCurrency(t *testing.T) {
-	inr, _ := GetCurrency("INR")
+	inr, err := GetCurrency("INR")
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	fmt.Println(inr.String())
 	if inr.Number() != 356 {
 		t.Fail()
