@@ -107,7 +107,7 @@ func NewMoneyPartUint(currStr string, intPart uint64, decPart uint) (*Money, err
 		return getMoney(curr, strconv.FormatUint(intPart, 10))
 	}
 	if decPart >= pow10(nod) {
-		return nil, errors.New("Decimal part does not fit currency NOD")
+		return nil, errors.New("currency decimal part does not fit currency NOD")
 	}
 	format := "%v.%0#" + fmt.Sprintf("%v", nod) + "d"
 	mStr := fmt.Sprintf(format, intPart, decPart)
@@ -131,7 +131,7 @@ func NewMoneyPart(currStr string, intPart string, decPart string) (*Money, error
 	}
 	nod := curr.NOD()
 	if decPart == "" || (len(decPart) != int(nod)) {
-		return nil, errors.New("Decimal part can be empty OR length of NOD")
+		return nil, errors.New("currency decimal part can be empty OR length of NOD")
 	}
 	var combined string
 	if decPart == "" {
@@ -162,5 +162,5 @@ func NewMoneyWhole(currStr string, whole uint64) (*Money, error) {
 		}
 		return getMoney(curr, outStr)
 	}
-	return nil, errors.New("Invalid: " + str)
+	return nil, errors.New("invalid currency amount '" + str + "'")
 }
