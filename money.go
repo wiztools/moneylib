@@ -63,14 +63,6 @@ func (m *Money) Human(lan language.Tag) string {
 	return p.Sprintf("%s"+format, m.curr.symbol, value)
 }
 
-// StringHuman returns money representation for humans.
-// func (m *Money) StringHuman() string {
-// 	curr := m.Currency()
-// 	f, _ := m.Float().Float64()
-// 	o := money.Format(f, money.Options{"currency": curr.Code()})
-// 	return o
-// }
-
 func pow10(x uint) uint {
 	if x == 0 {
 		return 0

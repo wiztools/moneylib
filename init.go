@@ -1,4 +1,12 @@
-[
+package moneylib
+
+import (
+	"encoding/json"
+	"errors"
+	"log"
+)
+
+var currencyJSON string = `[
   {"code": "AED", "sym": "د.إ", "number": 784, "nod": 2},
   {"code": "AFN", "sym": "؋", "number": 971, "nod": 2},
   {"code": "ALL", "sym": "L", "number": 8, "nod": 2},
@@ -137,7 +145,7 @@
   {"code": "SYP", "sym": "£S", "number": 760, "nod": 2},
   {"code": "SZL", "sym": "L", "number": 748, "nod": 2},
   {"code": "THB", "sym": "฿", "number": 764, "nod": 2},
-  {"code": "TJS", "sym": "ЅМ", "number": 972, "nod": 2},
+  {"code": "TJS", "sym": "SM", "number": 972, "nod": 2},
   {"code": "TMT", "sym": "T", "number": 934, "nod": 2},
   {"code": "TND", "sym": "د.ت", "number": 788, "nod": 3},
   {"code": "TOP", "sym": "T$", "number": 776, "nod": 2},
@@ -178,3 +186,32 @@
   {"code": "ZMW", "sym": "ZK", "number": 967, "nod": 2},
   {"code": "ZWL", "sym": "$", "number": 932, "nod": 2}
 ]
+`
+
+var currMap = make(map[string]Currency)
+
+func init() {
+	currencies := make([]currTmp, 0)
+	err := json.Unmarshal([]byte(currencyJSON), &currencies)
+	if err != nil {
+		log.Fatalf("Error unmarshaling currency data")
+	}
+	for _, v := range currencies {
+		currMap[v.Code] = newCurrency(&v)
+	}
+}
+
+// GetCurrency returns the currency object for the code.
+func GetCurrency(code string) (Currency, error) {
+	curr := currMap[code]
+	if curr.code != code {
+		return curr, errors.New("Currency code not available: " + code)
+	}
+	return currMap[code], nil
+}
+
+// ValidCurrency checks if the currency code is correct
+func ValidCurrency(code string) bool {
+	_, err := GetCurrency(code)
+	return err == nil
+}

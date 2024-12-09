@@ -1,11 +1,7 @@
 package moneylib
 
 import (
-	"encoding/json"
-	"errors"
 	"fmt"
-	"log"
-	"os"
 )
 
 type currTmp struct {
@@ -51,37 +47,4 @@ func (c *Currency) String() string {
 func newCurrency(c *currTmp) Currency {
 	o := Currency{code: c.Code, number: c.Number, symbol: c.Symbol, nod: c.NOD}
 	return o
-}
-
-var currMap = make(map[string]Currency)
-
-func init() {
-	confFile := "conf/currency.json"
-	b, err := os.ReadFile(confFile)
-	if err != nil {
-		log.Fatalf("Cannot load config: %v.", confFile)
-	}
-	currencies := make([]currTmp, 0)
-	err = json.Unmarshal(b, &currencies)
-	if err != nil {
-		log.Fatalf("Error unmarshaling: %v.\n%v\n", confFile, err)
-	}
-	for _, v := range currencies {
-		currMap[v.Code] = newCurrency(&v)
-	}
-}
-
-// GetCurrency returns the currency object for the code.
-func GetCurrency(code string) (Currency, error) {
-	curr := currMap[code]
-	if curr.code != code {
-		return curr, errors.New("Currency code not available: " + code)
-	}
-	return currMap[code], nil
-}
-
-// ValidCurrency checks if the currency code is correct
-func ValidCurrency(code string) bool {
-	_, err := GetCurrency(code)
-	return err == nil
 }
