@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math/big"
 	"testing"
+
+	"golang.org/x/text/language"
 )
 
 func TestString(t *testing.T) {
@@ -17,14 +19,45 @@ func TestString(t *testing.T) {
 	}
 }
 
+func TestHuman(t *testing.T) {
+	{
+		m, err := NewMoneyPart("INR", "1234567", "89")
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		fmt.Println("INR", m.String(), m.Human(language.Italian), m.Human(language.English))
+		if m.Human(language.Italian) != "₹1.234.567,89" {
+			t.Fail()
+		}
+		if m.Human(language.English) != "₹1,234,567.89" {
+			t.Fail()
+		}
+	}
+	{
+		m, err := NewMoneyWhole("JPY", 1234567)
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		fmt.Println("JPY", m.String(), m.Human(language.Italian), m.Human(language.English))
+		if m.Human(language.Italian) != "¥1.234.567" {
+			t.Fail()
+		}
+		if m.Human(language.English) != "¥1,234,567" {
+			t.Fail()
+		}
+	}
+}
+
 func TestStringHuman(t *testing.T) {
 	o, err := NewMoneyStr("INR", "122123.02")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	fmt.Printf("Human: %v.\n", o.StringHuman())
-	if o.StringHuman() != "₹122,123.02" {
+	fmt.Printf("Human: %v.\n", o.HumanEN())
+	if o.HumanEN() != "₹122,123.02" {
 		t.Fail()
 	}
 }

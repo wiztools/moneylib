@@ -1,5 +1,5 @@
 module github.com/wiztools/moneylib
 
-go 1.22
+go 1.23
 
-require github.com/joiggama/money v2.0.0+incompatible
+require golang.org/x/text v0.21.0

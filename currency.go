@@ -11,7 +11,7 @@ import (
 type currTmp struct {
 	Code   string `json:"code"`
 	Number uint   `json:"number"`
-	Symbol string `json:"-"`
+	Symbol string `json:"sym"`
 	NOD    uint   `json:"nod"` // Number of Decimals
 }
 

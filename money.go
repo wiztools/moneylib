@@ -8,7 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/joiggama/money"
+	"golang.org/x/text/language"
+	"golang.org/x/text/message"
 )
 
 // Money type. Use NewMoney*() functions to instantiate.
@@ -46,13 +47,29 @@ func (m *Money) String() string {
 	return fmt.Sprintf("%v.%v", m.intPart, m.decPart)
 }
 
-// StringHuman returns money representation for humans.
-func (m *Money) StringHuman() string {
-	curr := m.Currency()
-	f, _ := m.Float().Float64()
-	o := money.Format(f, money.Options{"currency": curr.Code()})
-	return o
+func (m *Money) HumanEN() string {
+	return m.Human(language.English)
 }
+
+func (m *Money) Human(lan language.Tag) string {
+	p := message.NewPrinter(lan)
+	if m.Currency().nod == 0 {
+		return p.Sprintf("%s%d", m.curr.symbol, m.Whole())
+	}
+	// Format the money value to the exact decimal value defined
+	// for the currency:
+	format := fmt.Sprintf("%%.%df", m.Currency().nod)
+	value, _ := m.Float().Float64()
+	return p.Sprintf("%s"+format, m.curr.symbol, value)
+}
+
+// StringHuman returns money representation for humans.
+// func (m *Money) StringHuman() string {
+// 	curr := m.Currency()
+// 	f, _ := m.Float().Float64()
+// 	o := money.Format(f, money.Options{"currency": curr.Code()})
+// 	return o
+// }
 
 func pow10(x uint) uint {
 	if x == 0 {

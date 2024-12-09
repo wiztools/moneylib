@@ -34,7 +34,7 @@ func (m *Money) SerializableMoney() SerializableMoney {
 func (m *Money) SerializableDispMoney() SerializableDispMoney {
 	var out SerializableDispMoney
 	out.Value = m.String()
-	out.Display = m.StringHuman()
+	out.Display = m.HumanEN()
 	curr := m.Currency()
 	out.Currency = curr.Code()
 	return out
