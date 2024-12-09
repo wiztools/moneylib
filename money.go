@@ -16,11 +16,10 @@ import (
 type Money struct {
 	intPart string
 	decPart string
-	curr    Currency
+	curr    *Currency
 }
 
-// Currency returns the currency of the money.
-func (m Money) Currency() Currency {
+func (m Money) Currency() *Currency {
 	return m.curr
 }
 
@@ -96,7 +95,7 @@ func getMoney(curr Currency, value string) (*Money, error) {
 	}
 	decPart := outArr[3]
 
-	m := &Money{curr: curr, intPart: intPart, decPart: decPart}
+	m := &Money{curr: &curr, intPart: intPart, decPart: decPart}
 
 	return m, nil
 }
