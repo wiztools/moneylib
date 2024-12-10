@@ -10,7 +10,7 @@ This is a golang module for representing money value.
 
 ## Foundation
 
-The library is written on the foundation of NOD, or **Number Of Decimals**, for each currency. For example, for USD, 100 cents make a dollar, and hence the NOD is 2. But JPY does not have the concept of a cent, meaning the NOD for that currency is 0.
+The library is written on the foundation of NOD, or **Number Of Decimals**, for each currency. For example, for USD, 100 cents make a dollar, which means need to represent pennies in 2 digits (00-to-99) before bumping up the dollar part, and hence the NOD is 2. But JPY does not have the concept of a cent, meaning the NOD for that currency is 0.
 
 ## Usage
 
