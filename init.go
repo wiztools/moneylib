@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-var currencyJSON string = `[
+const currencyJSON = `[
   {"code": "AED", "sym": "د.إ", "number": 784, "nod": 2},
   {"code": "AFN", "sym": "؋", "number": 971, "nod": 2},
   {"code": "ALL", "sym": "L", "number": 8, "nod": 2},
